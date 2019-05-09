@@ -2,7 +2,7 @@
 
 LiquidCrystal lcd(12, 11, 5, 4, 3, 2);
 int Stato;
-int x = 500;
+int x = 1000;
 int t;
 int Score = 0;
 bool y = true;
