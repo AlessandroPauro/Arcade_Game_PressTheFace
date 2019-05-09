@@ -10,6 +10,9 @@ int a = 0;
 int b = 0;
 int c = 0;
 int d = 13;
+int NumeroTurni = 0;
+int NumeroTurniB = NumeroTurni - 1;
+int NumeroErr = 0;
 const int buttonPin1 = 22;
 const int buttonPin2 = 24;
 const int buttonPin3 = 26;
@@ -75,32 +78,29 @@ byte Evil[8] = {
 };
 
 void NumeroRandom(){   
-   randomSeed(millis());                           
-   t = random(3);
-   while (digitalRead (buttonPin1)!= LOW && digitalRead (buttonPin2)!= LOW && digitalRead (buttonPin3) != LOW){
-   if (t == 0){Smileface();delay(x);if(buttonPin2 == LOW){Score + 10;if(Score<0){Stato = 3;}else{NumeroRandom();}} else{Score - 10;DelateHealth();Stato = 3;}}else/*if(buttonPin2 == LOW){Score + 10;}*/ 
-   if (t == 1){Evilface();delay(x);if(buttonPin2 == LOW){Score - 10;DelateHealth();}}else/*if(buttonPin2 == LOW){Score - 10;}}else*/
-   if (t == 2){GiveHeart();delay(x);if(buttonPin2 == LOW){HeartF();NumeroRandom();}/*lcd.write(byte(10));if(buttonPin3 == LOW){Score = 0;}}*/
-  }    
-   if (Score != 0){Stato = 3;}else{NumeroRandom();}   
-}
+ randomSeed(millis());                           
+ t = random(3);
+   while (NumeroTurniB > NumeroTurni){
+    if (t == 0){Smileface();if(buttonPin2 == LOW){Score = Score + 10;}else{Score = Score - 10;DelateHealth();}}else
+    if (t == 1){Evilface();if(buttonPin2 == LOW){Score = Score - 10;DelateHealth();}} else 
+    if (t == 2){GiveHeart();if(buttonPin2 == LOW){HeartF();}}}
+   if(Score<0){Stato = 3;}else {NumeroTurniB = NumeroTurni + 1;} 
 }
 void DelateHealth(){
   lcd.setCursor(d,0);
   lcd.write(byte(2));
-  delay(1000);
+  delay(500);
   lcd.setCursor(d,0);
   lcd.write(" ");
   lcd.setCursor(d,0);
   lcd.write(byte(3));
-  delay(1000);
+  delay(500);
   lcd.setCursor(d,0);
   lcd.write(" ");
   lcd.setCursor(d,0);
   lcd.write(byte(4));
-  delay(1000);
-  lcd.setCursor(d,0);
-  lcd.write(" ");
+  delay(500);
+  d = d + 1;
   }
 
 void Smileface() {
@@ -165,7 +165,7 @@ void BottoniDif()
   lcd.clear();
   lcd.print("Easy Normal Hard");
   while (digitalRead (buttonPin1)!= LOW && digitalRead (buttonPin2)!= LOW && digitalRead (buttonPin3) != LOW) {
-    if (digitalRead(buttonPin1) == LOW) {x + 300;}else if (digitalRead(buttonPin2) == LOW) {} else if (digitalRead(buttonPin3) == LOW) {x - 300;}
+    if (digitalRead(buttonPin1) == LOW) {x = x + 300;}else if (digitalRead(buttonPin2) == LOW) {} else if (digitalRead(buttonPin3) == LOW) {x = x - 300;}
   }
 }
 void Finish(){
