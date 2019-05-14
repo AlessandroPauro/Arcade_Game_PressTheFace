@@ -4,6 +4,8 @@ LiquidCrystal lcd(12, 11, 5, 4, 3, 2);
 int Stato;
 int x = 1000;
 int t;
+int v;
+int p;
 int Score = 0;
 bool y = true;
 int a = 0;
@@ -77,35 +79,9 @@ byte Evil[8] = {
   B00000,
 };
 
-void NumeroRandom(){   
- randomSeed(millis());                           
- t = random(3);
-   while (NumeroTurniB > NumeroTurni){
-    if (t == 0){Smileface();if(buttonPin2 == LOW){Score = Score + 10;}else{Score = Score - 10;DelateHealth();}}else
-    if (t == 1){Evilface();if(buttonPin2 == LOW){Score = Score - 10;DelateHealth();}} else 
-    if (t == 2){GiveHeart();if(buttonPin2 == LOW){HeartF();}}}
-   if(Score<0){Stato = 3;}else {NumeroTurniB = NumeroTurni + 1;} 
-}
-void DelateHealth(){
-  lcd.setCursor(d,0);
-  lcd.write(byte(2));
-  delay(500);
-  lcd.setCursor(d,0);
-  lcd.write(" ");
-  lcd.setCursor(d,0);
-  lcd.write(byte(3));
-  delay(500);
-  lcd.setCursor(d,0);
-  lcd.write(" ");
-  lcd.setCursor(d,0);
-  lcd.write(byte(4));
-  delay(500);
-  d = d + 1;
-  }
-
 void Smileface() {
   lcd.createChar(6, Smile);
-  lcd.setCursor(4, 2);
+  lcd.setCursor(p, 2);
   lcd.write(byte(6));
   delay(x);
 }
@@ -129,7 +105,7 @@ void HeartF3() {
 }
 void GiveHeart() {
   lcd.createChar(1, Heart);
-  lcd.setCursor(4, 2);
+  lcd.setCursor(12, 0);
   lcd.write(byte(1));
   delay(x);
 }
@@ -156,10 +132,49 @@ void DeathHeartF() {
 
 void Evilface() {
   lcd.createChar(5, Evil);
-  lcd.setCursor(4, 2);
+  lcd.setCursor(p, 2);
   lcd.write(byte(5));
   delay(x);
 }
+
+void DelateHealth(){
+  lcd.setCursor(d,0);
+  lcd.write(" ");
+  lcd.setCursor(d,0);
+  lcd.write(byte(2));
+  delay(500);
+  lcd.setCursor(d,0);
+  lcd.write(" ");
+  lcd.setCursor(d,0);
+  lcd.write(byte(3));
+  delay(500);
+  lcd.setCursor(d,0);
+  lcd.write(" ");
+  lcd.setCursor(d,0);
+  lcd.write(byte(4));
+  delay(500);
+  d = d + 1;
+  if (d == 3){Stato = 3;}
+  }
+
+void NumeroRandom(){   
+ randomSeed(millis());                           
+ t = random(3);
+   while (NumeroTurniB < NumeroTurni){
+    if (t == 0){Smileface();if(digitalRead(buttonPin2) == LOW){Score = Score + 10;NumeroTurniB = NumeroTurniB + 2;}else{Score = Score - 10;DelateHealth();NumeroTurniB = NumeroTurniB + 2;}}else
+    if (t == 1){Evilface();if(digitalRead(buttonPin2) == LOW){Score = Score - 10;DelateHealth();NumeroTurniB = NumeroTurniB + 2;}} else 
+    if (t == 2){GiveHeart();if(digitalRead(buttonPin2) == LOW){HeartF();NumeroTurniB = NumeroTurniB + 2; }}}
+   if(Score<0){Stato = 3;}else {NumeroTurniB = NumeroTurniB + 2;NumeroRandom();} 
+}
+
+void RandomButton(){
+  randomSeed((millis));
+  v = random(3);
+  if (v == 0){}
+  if (v == 1){}
+  if (v == 2){}
+}
+
 void BottoniDif() 
 {
   lcd.clear();
