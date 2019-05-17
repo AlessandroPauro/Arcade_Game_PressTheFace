@@ -1,21 +1,20 @@
 #include <LiquidCrystal.h>
 
 LiquidCrystal lcd(12, 11, 5, 4, 3, 2);
+bool y = true;
 int Stato;
 int x = 1000;
+int Score = 0;
 int t;
 int v;
 int p;
-int Score = 0;
-bool y = true;
+
 int a = 0;
 int b = 0;
-int c = 0;
 int d = 13;
 int cdr = 0;
 int NumeroTurni = 0;
-int NumeroTurniB = NumeroTurni - 1;
-int NumeroErr = 0;
+int NumeroTurniB = - 1;
 const int buttonPin1 = 22;
 const int buttonPin2 = 24;
 const int buttonPin3 = 26;
@@ -108,10 +107,10 @@ void HeartF3() {
 }
 void GiveHeart() {
   lcd.createChar(1, Heart);
-  lcd.setCursor(12, 0);
+  lcd.setCursor(p, 2);
   lcd.write(byte(1));
   delay(x);
-  lcd.setCursor(12, 0);
+  lcd.setCursor(p, 2);
   lcd.print(" ");
 }
 void BrokenHeartF() {
@@ -170,10 +169,10 @@ void NumeroRandom(){
  t = random(0, 100);
  RandomButton();
     while (NumeroTurniB < NumeroTurni){
-    if (t <= 50){Smileface();       if((v == 0 && digitalRead(buttonPin1) == LOW) || (v == 1 && digitalRead(buttonPin2) == LOW) || (v == 2 && digitalRead(buttonPin3) == LOW)) {Score = Score + 10;NumeroTurniB = NumeroTurniB + 2;} else {Score = Score - 10; DelateHealth();cdr = cdr + 1;NumeroTurniB = NumeroTurniB +2;}}else
-    if (t > 50 && t<80){Evilface(); if((v == 0 && digitalRead(buttonPin1) == LOW) || (v == 1 && digitalRead(buttonPin2) == LOW) || (v == 2 && digitalRead(buttonPin3) == LOW)) {Score = Score - 10;DelateHealth();cdr =  cdr + 1; NumeroTurniB = NumeroTurniB + 2;}} else 
-    if (t >= 80){GiveHeart();       if((v == 0 && digitalRead(buttonPin1) == LOW) || (v == 1 && digitalRead(buttonPin2) == LOW) || (v == 2 && digitalRead(buttonPin3) == LOW)) {HeartF(); cdr = cdr + 1;NumeroTurniB = NumeroTurniB + 2; }}}
-     
+    if (t <= 50)       {Smileface();  if((v == 0 && digitalRead(buttonPin1) == LOW) || (v == 1 && digitalRead(buttonPin2) == LOW) || (v == 2 && digitalRead(buttonPin3) == LOW)) {Score = Score + 10;NumeroTurniB = NumeroTurniB + 2;} else {Score = Score - 10; DelateHealth();cdr = cdr + 1;NumeroTurniB = NumeroTurniB +2;}}else
+    if (t > 50 && t<80){Evilface();   if((v == 0 && digitalRead(buttonPin1) == LOW) || (v == 1 && digitalRead(buttonPin2) == LOW) || (v == 2 && digitalRead(buttonPin3) == LOW)) {Score = Score - 10;DelateHealth();cdr =  cdr + 1; NumeroTurniB = NumeroTurniB + 2;}} else 
+    if (t >= 80)       {GiveHeart();  if((v == 0 && digitalRead(buttonPin1) == LOW) || (v == 1 && digitalRead(buttonPin2) == LOW) || (v == 2 && digitalRead(buttonPin3) == LOW)) {HeartF(); cdr = cdr - 1;NumeroTurniB = NumeroTurniB + 2; }else{NumeroTurniB = NumeroTurniB + 2;}}
+     }
 }
 void RandomButton(){
   randomSeed(millis());
@@ -199,7 +198,7 @@ void Finish(){
    lcd.print(Score);
    delay(1000);
    lcd.clear();
-   if (Score > 10){lcd.print("You Win");}else {lcd.print("You lose");}
+   if (Score > 10){lcd.print("You Win");delay(1000);}else {lcd.print("You lose");delay(1000);}
   }
   
 void Start()
@@ -218,9 +217,9 @@ void Gioco() {
   HeartF();
   HeartF2();
   HeartF3();
-  while(d != 15 || cdr != 3){
+  while(cdr != 3){
   NumeroRandom();
-  NumeroTurniB -= 2;
+  NumeroTurniB = NumeroTurniB - 2;
   }
   Stato = 3;
 }
